@@ -12,17 +12,114 @@ LANGUAGE ~English~
          ~%MOD_FOLDER%/tra/english/setup.tra~
 
 BEGIN ~The Artisan's Armory - Rebalanced Weapon Types~
+GROUP ~Item Tweaks~
 
 INCLUDE ~%MOD_FOLDER%/lib/tweak_weapons.tpa~
 
 BEGIN ~The Artisan's Armory - Revised Armor, Shield and Dexterity Armor Class Bonuses~
+GROUP ~Item Tweaks~
 
 INCLUDE ~%MOD_FOLDER%/lib/dex_armor_tweaks.tpa~
 
 BEGIN ~The Artisan's Armory - Change Item Attribute Bonuses from Flat to Incremental~
+GROUP ~Item Tweaks~
 
 INCLUDE ~%MOD_FOLDER%/lib/attributes.tpa~
 
 BEGIN ~(EEex) The Artisan's Armory - Speed/Attack Per Round Weapon Rework~
+GROUP ~Item Tweaks~
 
 INCLUDE ~%MOD_FOLDER%/lib/speed_weapons.tpa~
+
+/////
+
+BEGIN ~80% of original value~ DESIGNATED 0051
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Gems and Jewelry~ 
+
+OUTER_SET divide_value = 8
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_gems.tpa~
+
+BEGIN ~60% of original value~ DESIGNATED 0052
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Gems and Jewelry~ 
+
+OUTER_SET divide_value = 6
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_gems.tpa~
+
+BEGIN ~40% of original value~ DESIGNATED 0053
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Gems and Jewelry~ 
+
+OUTER_SET divide_value = 4
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_gems.tpa~
+
+BEGIN ~20% of original value~ DESIGNATED 0054
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Gems and Jewelry~ 
+
+OUTER_SET divide_value = 2
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_gems.tpa~
+
+////
+
+BEGIN ~80% of original value~ DESIGNATED 0055
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Scrolls~ 
+
+OUTER_SET divide_value = 8
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_scrolls.tpa~
+
+BEGIN ~60% of original value~ DESIGNATED 0056
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Scrolls~ 
+
+OUTER_SET divide_value = 6
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_scrolls.tpa~
+
+BEGIN ~40% of original value~ DESIGNATED 0057
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Scrolls~ 
+
+OUTER_SET divide_value = 4
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_scrolls.tpa~
+
+BEGIN ~20% of original value~ DESIGNATED 0058
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Scrolls~ 
+
+OUTER_SET divide_value = 2
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_scrolls.tpa~
+
+////
+
+BEGIN ~80% of original value~ DESIGNATED 0059
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Potions~ 
+
+OUTER_SET divide_value = 8
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_potions.tpa~
+
+BEGIN ~60% of original value~ DESIGNATED 0060
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Potions~ 
+
+OUTER_SET divide_value = 6
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_potions.tpa~
+
+BEGIN ~40% of original value~ DESIGNATED 0061
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Potions~ 
+
+OUTER_SET divide_value = 4
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_potions.tpa~
+
+BEGIN ~20% of original value~ DESIGNATED 0062
+GROUP ~Item Tweaks~
+SUBCOMPONENT ~House Tweaks: Reduce Gold Value of Potions~ 
+
+OUTER_SET divide_value = 2
+INCLUDE ~%MOD_FOLDER%/lib/gold_value_potions.tpa~
+/*
+BEGIN ~~
+GROUP ~Combat/Gameplay Tweaks~*/
