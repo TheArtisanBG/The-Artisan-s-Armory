@@ -1,0 +1,20 @@
+BACKUP ~weidu_external/backup/Artisans_Armory~
+AUTHOR ~The Artisan~
+AUTO_TRA ~%MOD_FOLDER%/translations/%s~
+ALWAYS
+  INCLUDE ~%MOD_FOLDER%/lib/eet.tph~
+  INCLUDE ~%MOD_FOLDER%/lib/functions.tph~
+  
+END
+
+LANGUAGE ~English~
+         ~english~
+         ~%MOD_FOLDER%/tra/english/setup.tra~
+
+BEGIN ~The Artisan's Armory - Rebalanced Weapon Types~
+
+INCLUDE ~%MOD_FOLDER%/lib/tweak_weapons.tpa~
+
+BEGIN ~(EEex) The Artisan's Armory - Speed/Attack Per Round Weapon Rework~
+
+INCLUDE ~%MOD_FOLDER%/lib/speed_weapons.tpa~

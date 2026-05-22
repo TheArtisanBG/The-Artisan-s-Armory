@@ -1,0 +1,104 @@
+COPY ~%MOD_FOLDER%/eeex/double_hit~ ~override~
+
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E3.EFF~
+  WRITE_BYTE 0x2c 40
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E4.EFF~
+  WRITE_BYTE 0x2c 60
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E5.EFF~
+  WRITE_BYTE 0x2c 80
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E6.EFF~
+  WRITE_BYTE 0x2c 100
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E7.EFF~
+  WRITE_BYTE 0x2c 50
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E8.EFF~
+  WRITE_BYTE 0x2c 60
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E9.EFF~
+  WRITE_BYTE 0x2c 70
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-E0.EFF~
+  WRITE_BYTE 0x2c 90
+COPY_EXISTING ~C0-AR-E1.EFF~ ~OVERRIDE/C0-AR-EA.EFF~
+  WRITE_BYTE 0x2c 10
+
+COPY_EXISTING ~C0-AR-E1.SPL~ ~OVERRIDE~
+  LPF ALTER_EFFECT
+      INT_VAR
+        match_opcode = 139
+        parameter1 = RESOLVE_STR_REF (~Rolls to attack an additional time~)
+  END
+
+
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
+      SET is_ranged = 0
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+      PATCH_IF (SOURCE_SIZE > 0x71) BEGIN // avoid crashing on empty items
+      READ_BYTE 0x18 twohanded
+      PATCH_IF ((twohanded BAND 0b00000010) = 0b00000000) BEGIN
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+          PATCH_IF (type = 2) BEGIN
+            is_ranged = 1
+          END
+          PATCH_IF (type = 1) AND !(is_ranged = 1) BEGIN
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 1 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E1~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 2 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E3~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 3 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E4~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 4 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E5~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 5 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E6~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 6 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-EA~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 7 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E7~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 8 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E8~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 9 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E9~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 10 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E0~ END
+      PATCH_FOR_EACH offset IN 0x54 BEGIN
+      READ_STRREF ~%offset%~ desc
+        PATCH_IF !(("%desc%" STRING_CONTAINS_REGEXP ~[0-9] extra attack per round~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~[0-9] extra attacks per round~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~[0-9] bonus attacks per round~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~Attacks per round: +[0-9]~)
+                    ) BEGIN // checking for valid content in string
+            				      INNER_PATCH_SAVE new_desc ~%desc%~ BEGIN
+            				        REPLACE_TEXTUALLY ~1 extra attack per round~ ~When making a successful attack with this weapon, there is a 20% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~1.5 extra attacks per round~ ~When making a successful attack with this weapon, there is a 30% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~2 extra attacks per round~ ~When making a successful attack with this weapon, there is a 40% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~2.5 extra attacks per round~ ~When making a successful attack with this weapon, there is a 50% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~3 extra attacks per round~ ~When making a successful attack with this weapon, there is a 60% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~3.5 extra attacks per round~ ~When making a successful attack with this weapon, there is a 70% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~4 extra attacks per round~ ~When making a successful attack with this weapon, there is an 80% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~4.5 extra attacks per round~ ~When making a successful attack with this weapon, there is a 90% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~5 extra attacks per round~ ~When making a successful attack with this weapon, there is a 100% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~1 bonus attack per round~ ~When making a successful attack with this weapon, there is a 20% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~1.5 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 30% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~2 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 40% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~2.5 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 50% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~3 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 60% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~3.5 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 70% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~4 bonus attacks per round~ ~When making a successful attack with this weapon, there is an 80% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~4.5 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 90% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~5 bonus attacks per round~ ~When making a successful attack with this weapon, there is a 100% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +1/2~ ~When making a successful attack with this weapon, there is a 10% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +0.5~ ~When making a successful attack with this weapon, there is a 10% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +1~ ~When making a successful attack with this weapon, there is a 20% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +3/2~ ~When making a successful attack with this weapon, there is a 30% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +1.5~ ~When making a successful attack with this weapon, there is a 30% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +2~ ~When making a successful attack with this weapon, there is a 40% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +5/2~ ~When making a successful attack with this weapon, there is a 50% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +2.5~ ~When making a successful attack with this weapon, there is a 50% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +3~ ~When making a successful attack with this weapon, there is a 60% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +7/2~ ~When making a successful attack with this weapon, there is a 70% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +3.5~ ~When making a successful attack with this weapon, there is a 70% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +4~ ~When making a successful attack with this weapon, there is an 80% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +9/2~ ~When making a successful attack with this weapon, there is a 90% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +4.5~ ~When making a successful attack with this weapon, there is a 90% chance to roll to attack again instantly.~
+            				        REPLACE_TEXTUALLY ~Attacks per round: +5~ ~When making a successful attack with this weapon, there is a 100% chance to roll to attack again instantly.~
+		        				  END
+		        					SAY_EVALUATED ~%offset%~ ~%new_desc%~
+		        				  END
+          END
+
+            				  END
+                      END
+                      END
+      END
+
+    BUT_ONLY

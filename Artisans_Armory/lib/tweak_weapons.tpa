@@ -1,0 +1,427 @@
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
+  PATCH_IF (SOURCE_SIZE > 0x71) BEGIN // avoid crashing on empty items
+    READ_SHORT 0x22 appearance
+    READ_SHORT 0x31 proficiency
+    READ_SHORT 0x34 gold
+    READ_SHORT 0x1c type
+    SET add_damagebonus = 0
+    SET remove_damagebonus = 0
+    SET critical_rate_bonus = 0
+    SET is_ranged = 0
+
+      PATCH_IF (type = 20) AND (proficiency = 89) BEGIN // BASTARD SWORD
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+          PATCH_IF (type = 1) AND (dicesize = 4) AND (dicethrown = 2) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 10
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+        END
+    END
+    
+      PATCH_IF (type = 25) AND (proficiency = 92) BEGIN // BATTLE AXE
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+          PATCH_IF (type = 1) AND (dicesize = 8) AND (dicethrown = 1) BEGIN
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET add_damagebonus = 1
+            END
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus + 2)
+            END
+        END
+    END
+    
+      PATCH_IF (type = 17) AND (proficiency = 115) BEGIN // CLUB
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+          PATCH_IF (type = 1) AND (dicesize = 6) AND (dicethrown = 1) BEGIN
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET add_damagebonus = 1
+            END
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 4
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus + 1)
+            END
+        END
+    END
+    
+      PATCH_IF (type = 16) AND (proficiency = 96) BEGIN // DAGGER
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+			READ_LONG  0x6a ef_off
+			READ_SHORT 0x70 ef_num
+				  FOR (i=0;i<ef_num;++i) BEGIN
+				  READ_SHORT ef_off+i*0x30 opcode
+				  READ_SHORT ef_off+i*0x30+3 power
+				  READ_LONG ef_off+i*0x30+5 parameter1
+				  READ_LONG ef_off+i*0x30+8 effect
+				  READ_ASCII ef_off+i*0x30+14 eff_resref
+          END
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+          PATCH_IF (type = 1) BEGIN
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 1
+            END
+          PATCH_IF (type = 2) BEGIN
+            SET is_ranged = 1
+          END
+        END
+          PATCH_IF !(is_ranged = 1) BEGIN
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 1 target = 1 power = 0 parameter1 = 1 parameter2 = 0 timing = 2 special = 0 STR_VAR resource = C0_NFAPR END // BONUS ATTACK PER ROUND
+          END
+    END
+    
+      PATCH_IF (type = 23) AND (proficiency = 100) BEGIN // FLAIL
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagetype = 2) BEGIN
+              WRITE_SHORT (abil_off + 0x1C + (index * 0x38)) 6
+            END
+            PATCH_IF (dicesize = 6) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 8
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus - 1)
+            READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET remove_damagebonus = 1
+            END
+            END
+            END
+        END
+    END
+    
+      PATCH_IF (type = 30) AND (proficiency = 99) BEGIN // HALBERD
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET add_damagebonus = 1
+            END
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus + 2)
+            END
+        END
+    END
+    
+      PATCH_IF (type = 20) AND (proficiency = 94) BEGIN // KATANA
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 1
+          END
+        END
+    END
+    
+      PATCH_IF (type = 17) AND (proficiency = 101) BEGIN // MACE
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus - 1)
+            READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET remove_damagebonus = 1
+            END
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 1
+          END
+        END
+    END
+    
+      PATCH_IF (type = 22) AND (proficiency = 100) BEGIN // MORNINGSTAR
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagetype = 2) BEGIN
+              WRITE_SHORT (abil_off + 0x1C + (index * 0x38)) 6
+            END
+            PATCH_IF (dicesize = 6) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 8
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+            END
+        END
+    END
+    
+      PATCH_IF (type = 20) AND (proficiency = 95) AND (appearance = 12627) BEGIN // NINJATO
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (dicesize = 8) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 2
+            END
+        END
+    END
+        
+      PATCH_IF (type = 19) AND (proficiency = 91) BEGIN // SHORT SWORD
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagetype = 1) BEGIN
+              WRITE_SHORT (abil_off + 0x1C + (index * 0x38)) 7
+            END
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 1
+            END
+        END
+    END
+        
+      PATCH_IF (type = 20) AND (proficiency = 95) AND (appearance = 17235) BEGIN // SCIMITAR
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (dicesize = 8) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 1
+            END
+        END
+    END
+        
+      PATCH_IF (type = 30) AND (proficiency = 99) BEGIN // SPEAR
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET add_damagebonus = 1
+            END
+            PATCH_IF (dicesize = 4) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus + 2)
+            END
+        END
+    END
+    
+      PATCH_IF (type = 20) AND (proficiency = 93) BEGIN // TWO-HANDED SWORD
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (dicesize = 10) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 2
+            END
+            PATCH_IF (dicesize = 12) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 8
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 2
+            END
+            END
+        END
+    END
+    
+      PATCH_IF (type = 19) AND (proficiency = 95) BEGIN // WAKIZASHI
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagetype = 1) BEGIN
+              WRITE_SHORT (abil_off + 0x1C + (index * 0x38)) 7
+            END
+            PATCH_IF (dicesize = 8) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+            LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
+            SET critical_rate_bonus = 1
+            END
+        END
+    END
+        
+      PATCH_IF (type = 21) AND (proficiency = 97) BEGIN // WARHAMMER
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+        READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+        READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+          PATCH_IF (type = 1) BEGIN
+            PATCH_IF (damagebonus = 0) BEGIN
+            SET add_damagebonus = 1
+            END
+            PATCH_IF (dicesize = 4) AND (dicethrown = 1) BEGIN
+            WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
+            WRITE_BYTE (abil_off + 0x18 + (index * 0x38)) 1
+            END
+            WRITE_BYTE (abil_off + 0x1A + (index * 0x38)) (damagebonus + 1)
+            END
+        END
+    END
+    
+    END
+    // Damage description update
+      READ_LONG  0x64 abil_off
+      READ_SHORT 0x68 abil_num
+        FOR (index = 0 ; index < abil_num ; ++index) BEGIN
+        READ_BYTE (abil_off + (index * 0x38)) type
+            READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
+            READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+            READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+            READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
+          PATCH_IF (type = 1) BEGIN
+            
+                      PATCH_IF (damagetype = 1) BEGIN
+                        SPRINT damage_type ~Piercing~
+                      END
+                      PATCH_IF (damagetype = 2) BEGIN
+                        SPRINT damage_type ~Crushing~
+                      END
+                      PATCH_IF (damagetype = 3) BEGIN
+                        SPRINT damage_type ~Slashing~
+                      END
+                      PATCH_IF (damagetype = 4) BEGIN
+                        SPRINT damage_type ~Missile~
+                      END
+                      PATCH_IF (damagetype = 5) BEGIN
+                        SPRINT damage_type ~Non-lethal~
+                      END
+                      PATCH_IF (damagetype = 6) BEGIN
+                        SPRINT damage_type ~Piercing/Crushing~
+                      END
+                      PATCH_IF (damagetype = 7) BEGIN
+                        SPRINT damage_type ~Piercing/Slashing~
+                      END
+                      PATCH_IF (damagetype = 8) BEGIN
+                        SPRINT damage_type ~Crushing/Slashing~
+                      END
+                      PATCH_IF (damagetype = 9) BEGIN
+                        SPRINT damage_type ~Blunt Missile~
+                      END
+
+            PATCH_FOR_EACH offset IN 0x50 0x54 BEGIN
+		        					// SPRINT original_damagetype ~^Damage type:.+[%LNL%%MNL%%WNL%]+~
+		        					SPRINT original_diceroll ~^Damage:\([-  0-9]+\)d\([-  0-9]+\)~
+                      SPRINT original_damagebonus ~[+]\([-  0-9]+\)~
+		        					SPRINT new_diceroll ~Damage: %dicethrown%d%dicesize%~
+                      SPRINT new_damagebonus ~+%damagebonus%~
+                      SPRINT speed_factor ~Speed Factor:~
+                      
+                      PATCH_IF (critical_rate_bonus = 0) BEGIN
+                        SPRINT critical_modifier ~Critical Hit Range (Melee): 20~
+                      END
+
+                      PATCH_IF (critical_rate_bonus = 1) BEGIN
+                        SPRINT critical_modifier ~Critical Hit Range (Melee): 19-20~
+                      END
+
+                      PATCH_IF (critical_rate_bonus = 2) BEGIN
+                        SPRINT critical_modifier ~Critical Hit Range (Melee): 18-20~
+                      END
+                      
+            				    READ_STRREF ~%offset%~ desc
+            				    PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
+            				      INNER_PATCH_SAVE new_desc ~%desc%~ BEGIN
+                            PATCH_IF (remove_damagebonus = 1) BEGIN
+            				        REPLACE_TEXTUALLY ~%original_damagebonus%~ ~~
+                            END
+                            PATCH_IF (add_damagebonus = 1) BEGIN
+            				        REPLACE_TEXTUALLY ~%original_diceroll%~ ~%new_diceroll%%new_damagebonus%~
+                            END ELSE BEGIN
+            				        REPLACE_TEXTUALLY ~%original_diceroll%~ ~%new_diceroll%~
+                            END
+                            REPLACE_TEXTUALLY ~(piercing)~ ~(%damage_type%)~
+                            REPLACE_TEXTUALLY ~(missile)~ ~(%damage_type%)~
+                            REPLACE_TEXTUALLY ~(slashing)~ ~(%damage_type%)~
+                            REPLACE_TEXTUALLY ~(crushing)~ ~(%damage_type%)~
+                            REPLACE_TEXTUALLY ~(slashing or piercing, whichever is better)~ ~(%damage_type%)~
+                            REPLACE_TEXTUALLY ~(piercing or slashing)~ ~(%damage_type%)~
+                            REPLACE_TEXTUALLY ~Damage type:.+[%LNL%%MNL%%WNL%]*~ ~Damage type: %damage_type%
+~
+            				        REPLACE_TEXTUALLY ~%original_diceroll%%original_damagebonus%~ ~%new_diceroll%%new_damagebonus%~
+            				        REPLACE_TEXTUALLY ~%new_diceroll%(~ ~%new_diceroll% (~
+            				        REPLACE_TEXTUALLY ~%new_damagebonus%(~ ~%new_damagebonus% (~
+            				        REPLACE_TEXTUALLY ~
+%speed_factor%~ ~
+%critical_modifier%
+%speed_factor%~
+		        				  END
+		        					SAY_EVALUATED ~%offset%~ ~%new_desc%~
+		        				  END
+
+            				  END
+                      END
+                      END
+
+    BUT_ONLY
