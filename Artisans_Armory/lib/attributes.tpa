@@ -1,0 +1,158 @@
+COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
+      PATCH_IF (SOURCE_SIZE > 0x71) BEGIN // avoid crashing on empty items
+      READ_BYTE 0x18 droppable
+      PATCH_IF ((droppable BAND 0b00000100) = 0b00000100) BEGIN
+      PATCH_FOR_EACH offset IN 0x54 BEGIN
+      READ_STRREF ~%offset%~ desc
+        PATCH_IF !(("%desc%" STRING_CONTAINS_REGEXP ~Strength: ~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~Dexterity: ~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~Constitution: ~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~Intelligence: ~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~Wisdom: ~) AND
+                   ("%desc%" STRING_CONTAINS_REGEXP ~Charisma: ~)
+                    ) BEGIN // checking for valid content in string
+		// STRENGTH
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 17 match_parameter2 = 1 parameter1 = 1 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 18 match_parameter2 = 1 parameter1 = 2 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 19 match_parameter2 = 1 parameter1 = 3 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 20 match_parameter2 = 1 parameter1 = 4 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 21 match_parameter2 = 1 parameter1 = 5 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 22 match_parameter2 = 1 parameter1 = 6 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 23 match_parameter2 = 1 parameter1 = 7 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 24 match_parameter2 = 1 parameter1 = 8 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 44 match_parameter1 = 25 match_parameter2 = 1 parameter1 = 9 parameter2 = 0 END
+		// DEXTERITY
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 17 match_parameter2 = 1 parameter1 = 1 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 18 match_parameter2 = 1 parameter1 = 2 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 19 match_parameter2 = 1 parameter1 = 3 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 20 match_parameter2 = 1 parameter1 = 4 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 21 match_parameter2 = 1 parameter1 = 5 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 22 match_parameter2 = 1 parameter1 = 6 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 23 match_parameter2 = 1 parameter1 = 7 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 24 match_parameter2 = 1 parameter1 = 8 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 15 match_parameter1 = 25 match_parameter2 = 1 parameter1 = 9 parameter2 = 0 END
+		// CONSTITUTION
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 17 match_parameter2 = 1 parameter1 = 1 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 18 match_parameter2 = 1 parameter1 = 2 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 19 match_parameter2 = 1 parameter1 = 3 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 20 match_parameter2 = 1 parameter1 = 4 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 21 match_parameter2 = 1 parameter1 = 5 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 22 match_parameter2 = 1 parameter1 = 6 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 23 match_parameter2 = 1 parameter1 = 7 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 24 match_parameter2 = 1 parameter1 = 8 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 10 match_parameter1 = 25 match_parameter2 = 1 parameter1 = 9 parameter2 = 0 END
+		// INTELLIGENCE
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 17 match_parameter2 = 1 parameter1 = 1 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 18 match_parameter2 = 1 parameter1 = 2 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 19 match_parameter2 = 1 parameter1 = 3 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 20 match_parameter2 = 1 parameter1 = 4 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 21 match_parameter2 = 1 parameter1 = 5 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 22 match_parameter2 = 1 parameter1 = 6 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 23 match_parameter2 = 1 parameter1 = 7 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 24 match_parameter2 = 1 parameter1 = 8 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 19 match_parameter1 = 25 match_parameter2 = 1 parameter1 = 9 parameter2 = 0 END
+		// WISDOM
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 17 match_parameter2 = 1 parameter1 = 1 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 18 match_parameter2 = 1 parameter1 = 2 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 19 match_parameter2 = 1 parameter1 = 3 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 20 match_parameter2 = 1 parameter1 = 4 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 21 match_parameter2 = 1 parameter1 = 5 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 22 match_parameter2 = 1 parameter1 = 6 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 23 match_parameter2 = 1 parameter1 = 7 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 24 match_parameter2 = 1 parameter1 = 8 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 49 match_parameter1 = 25 match_parameter2 = 1 parameter1 = 9 parameter2 = 0 END
+		// CHARISMA
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 17 match_parameter2 = 1 parameter1 = 1 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 18 match_parameter2 = 1 parameter1 = 2 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 19 match_parameter2 = 1 parameter1 = 3 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 20 match_parameter2 = 1 parameter1 = 4 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 21 match_parameter2 = 1 parameter1 = 5 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 22 match_parameter2 = 1 parameter1 = 6 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 23 match_parameter2 = 1 parameter1 = 7 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 24 match_parameter2 = 1 parameter1 = 8 parameter2 = 0 END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 6 match_parameter1 = 25 match_parameter2 = 1 parameter1 = 9 parameter2 = 0 END
+            				      INNER_PATCH_SAVE new_desc ~%desc%~ BEGIN
+									SPRINT 17_old ~17~
+									SPRINT 17_new ~+1~
+									SPRINT 1800_old ~18/00~
+									SPRINT 1800_new ~+2 (+100 exceptional)~
+									SPRINT 18_old ~18~
+									SPRINT 18_new ~+2~
+									SPRINT 19_old ~19~
+									SPRINT 19_new ~+3~
+									SPRINT 20_old ~20~
+									SPRINT 20_new ~+4~
+									SPRINT 21_old ~21~
+									SPRINT 21_new ~+5~
+									SPRINT 22_old ~22~
+									SPRINT 22_new ~+6~
+									SPRINT 23_old ~23~
+									SPRINT 23_new ~+7~
+									SPRINT 24_old ~24~
+									SPRINT 24_new ~+8~
+									SPRINT 25_old ~25~
+									SPRINT 25_new ~+9~
+            				        REPLACE_TEXTUALLY ~ Strength: %17_old%~   ~ Strength: %17_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %1800_old%~ ~ Strength: %1800_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %18_old%~   ~ Strength: %18_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %19_old%~   ~ Strength: %19_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %20_old%~   ~ Strength: %20_old%~
+            				        REPLACE_TEXTUALLY ~ Strength: %21_old%~   ~ Strength: %21_old%~
+            				        REPLACE_TEXTUALLY ~ Strength: %22_old%~   ~ Strength: %22_old%~
+            				        REPLACE_TEXTUALLY ~ Strength: %23_old%~   ~ Strength: %23_old%~
+            				        REPLACE_TEXTUALLY ~ Strength: %24_old%~   ~ Strength: %24_old%~
+            				        REPLACE_TEXTUALLY ~ Strength: %25_old%~   ~ Strength: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %17_old%~   ~ Dexterity: %17_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %18_old%~   ~ Dexterity: %18_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %19_old%~   ~ Dexterity: %19_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %20_old%~   ~ Dexterity: %20_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %21_old%~   ~ Dexterity: %21_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %22_old%~   ~ Dexterity: %22_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %23_old%~   ~ Dexterity: %23_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %24_old%~   ~ Dexterity: %24_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %25_old%~   ~ Dexterity: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %17_old%~   ~ Constitution: %17_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %18_old%~   ~ Constitution: %18_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %19_old%~   ~ Constitution: %19_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %20_old%~   ~ Constitution: %20_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %21_old%~   ~ Constitution: %21_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %22_old%~   ~ Constitution: %22_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %23_old%~   ~ Constitution: %23_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %24_old%~   ~ Constitution: %24_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %25_old%~   ~ Constitution: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %17_old%~   ~ Intelligence: %17_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %18_old%~   ~ Intelligence: %18_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %19_old%~   ~ Intelligence: %19_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %20_old%~   ~ Intelligence: %20_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %21_old%~   ~ Intelligence: %21_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %22_old%~   ~ Intelligence: %22_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %23_old%~   ~ Intelligence: %23_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %24_old%~   ~ Intelligence: %24_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %25_old%~   ~ Intelligence: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %17_old%~   ~ Wisdom: %17_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %18_old%~   ~ Wisdom: %18_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %19_old%~   ~ Wisdom: %19_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %20_old%~   ~ Wisdom: %20_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %21_old%~   ~ Wisdom: %21_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %22_old%~   ~ Wisdom: %22_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %23_old%~   ~ Wisdom: %23_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %24_old%~   ~ Wisdom: %24_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %25_old%~   ~ Wisdom: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %17_old%~   ~ Charisma: %17_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %18_old%~   ~ Charisma: %18_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %19_old%~   ~ Charisma: %19_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %20_old%~   ~ Charisma: %20_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %21_old%~   ~ Charisma: %21_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %22_old%~   ~ Charisma: %22_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %23_old%~   ~ Charisma: %23_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %24_old%~   ~ Charisma: %24_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %25_old%~   ~ Charisma: %25_old%~
+									
+		        				  END
+		        					SAY_EVALUATED ~%offset%~ ~%new_desc%~
+		        				  END
+                      END
+					  END
+      END
+
+    BUT_ONLY

@@ -15,6 +15,14 @@ BEGIN ~The Artisan's Armory - Rebalanced Weapon Types~
 
 INCLUDE ~%MOD_FOLDER%/lib/tweak_weapons.tpa~
 
+BEGIN ~The Artisan's Armory - Revised Armor, Shield and Dexterity Armor Class Bonuses~
+
+INCLUDE ~%MOD_FOLDER%/lib/dex_armor_tweaks.tpa~
+
+BEGIN ~The Artisan's Armory - Change Item Attribute Bonuses from Flat to Incremental~
+
+INCLUDE ~%MOD_FOLDER%/lib/attributes.tpa~
+
 BEGIN ~(EEex) The Artisan's Armory - Speed/Attack Per Round Weapon Rework~
 
 INCLUDE ~%MOD_FOLDER%/lib/speed_weapons.tpa~

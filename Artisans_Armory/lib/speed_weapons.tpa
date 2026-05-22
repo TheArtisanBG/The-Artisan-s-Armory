@@ -39,17 +39,6 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
           PATCH_IF (type = 2) BEGIN
             is_ranged = 1
           END
-          PATCH_IF (type = 1) AND !(is_ranged = 1) BEGIN
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 1 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E1~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 2 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E3~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 3 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E4~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 4 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E5~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 5 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E6~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 6 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-EA~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 7 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E7~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 8 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E8~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 9 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E9~ END
-          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 opcode = 324 match_parameter1 = 10 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E0~ END
       PATCH_FOR_EACH offset IN 0x54 BEGIN
       READ_STRREF ~%offset%~ desc
         PATCH_IF !(("%desc%" STRING_CONTAINS_REGEXP ~[0-9] extra attack per round~) AND
@@ -57,6 +46,17 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
                    ("%desc%" STRING_CONTAINS_REGEXP ~[0-9] bonus attacks per round~) AND
                    ("%desc%" STRING_CONTAINS_REGEXP ~Attacks per round: +[0-9]~)
                     ) BEGIN // checking for valid content in string
+          PATCH_IF (type = 1) AND !(is_ranged = 1) BEGIN
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 1 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E1~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 2 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E3~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 3 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E4~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 4 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E5~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 5 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E6~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 6 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-EA~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 7 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E7~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 8 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E8~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 9 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E9~ END
+          LPF ALTER_EFFECT INT_VAR silent = 1 match_opcode = 1 match_parameter1 = 10 match_parameter2 = 0 match_timing = 2 opcode = 248 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~C0-AR-E0~ END
             				      INNER_PATCH_SAVE new_desc ~%desc%~ BEGIN
             				        REPLACE_TEXTUALLY ~1 extra attack per round~ ~When making a successful attack with this weapon, there is a 20% chance to roll to attack again instantly.~
             				        REPLACE_TEXTUALLY ~1.5 extra attacks per round~ ~When making a successful attack with this weapon, there is a 30% chance to roll to attack again instantly.~
