@@ -96,57 +96,57 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
             				        REPLACE_TEXTUALLY ~ Strength: %1800_old%~ ~ Strength: %1800_new%~
             				        REPLACE_TEXTUALLY ~ Strength: %18_old%~   ~ Strength: %18_new%~
             				        REPLACE_TEXTUALLY ~ Strength: %19_old%~   ~ Strength: %19_new%~
-            				        REPLACE_TEXTUALLY ~ Strength: %20_old%~   ~ Strength: %20_old%~
-            				        REPLACE_TEXTUALLY ~ Strength: %21_old%~   ~ Strength: %21_old%~
-            				        REPLACE_TEXTUALLY ~ Strength: %22_old%~   ~ Strength: %22_old%~
-            				        REPLACE_TEXTUALLY ~ Strength: %23_old%~   ~ Strength: %23_old%~
-            				        REPLACE_TEXTUALLY ~ Strength: %24_old%~   ~ Strength: %24_old%~
-            				        REPLACE_TEXTUALLY ~ Strength: %25_old%~   ~ Strength: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Strength: %20_old%~   ~ Strength: %20_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %21_old%~   ~ Strength: %21_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %22_old%~   ~ Strength: %22_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %23_old%~   ~ Strength: %23_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %24_old%~   ~ Strength: %24_new%~
+            				        REPLACE_TEXTUALLY ~ Strength: %25_old%~   ~ Strength: %25_new%~
             				        REPLACE_TEXTUALLY ~ Dexterity: %17_old%~   ~ Dexterity: %17_new%~
             				        REPLACE_TEXTUALLY ~ Dexterity: %18_old%~   ~ Dexterity: %18_new%~
             				        REPLACE_TEXTUALLY ~ Dexterity: %19_old%~   ~ Dexterity: %19_new%~
-            				        REPLACE_TEXTUALLY ~ Dexterity: %20_old%~   ~ Dexterity: %20_old%~
-            				        REPLACE_TEXTUALLY ~ Dexterity: %21_old%~   ~ Dexterity: %21_old%~
-            				        REPLACE_TEXTUALLY ~ Dexterity: %22_old%~   ~ Dexterity: %22_old%~
-            				        REPLACE_TEXTUALLY ~ Dexterity: %23_old%~   ~ Dexterity: %23_old%~
-            				        REPLACE_TEXTUALLY ~ Dexterity: %24_old%~   ~ Dexterity: %24_old%~
-            				        REPLACE_TEXTUALLY ~ Dexterity: %25_old%~   ~ Dexterity: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %20_old%~   ~ Dexterity: %20_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %21_old%~   ~ Dexterity: %21_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %22_old%~   ~ Dexterity: %22_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %23_old%~   ~ Dexterity: %23_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %24_old%~   ~ Dexterity: %24_new%~
+            				        REPLACE_TEXTUALLY ~ Dexterity: %25_old%~   ~ Dexterity: %25_new%~
             				        REPLACE_TEXTUALLY ~ Constitution: %17_old%~   ~ Constitution: %17_new%~
             				        REPLACE_TEXTUALLY ~ Constitution: %18_old%~   ~ Constitution: %18_new%~
             				        REPLACE_TEXTUALLY ~ Constitution: %19_old%~   ~ Constitution: %19_new%~
-            				        REPLACE_TEXTUALLY ~ Constitution: %20_old%~   ~ Constitution: %20_old%~
-            				        REPLACE_TEXTUALLY ~ Constitution: %21_old%~   ~ Constitution: %21_old%~
-            				        REPLACE_TEXTUALLY ~ Constitution: %22_old%~   ~ Constitution: %22_old%~
-            				        REPLACE_TEXTUALLY ~ Constitution: %23_old%~   ~ Constitution: %23_old%~
-            				        REPLACE_TEXTUALLY ~ Constitution: %24_old%~   ~ Constitution: %24_old%~
-            				        REPLACE_TEXTUALLY ~ Constitution: %25_old%~   ~ Constitution: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %20_old%~   ~ Constitution: %20_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %21_old%~   ~ Constitution: %21_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %22_old%~   ~ Constitution: %22_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %23_old%~   ~ Constitution: %23_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %24_old%~   ~ Constitution: %24_new%~
+            				        REPLACE_TEXTUALLY ~ Constitution: %25_old%~   ~ Constitution: %25_new%~
             				        REPLACE_TEXTUALLY ~ Intelligence: %17_old%~   ~ Intelligence: %17_new%~
             				        REPLACE_TEXTUALLY ~ Intelligence: %18_old%~   ~ Intelligence: %18_new%~
             				        REPLACE_TEXTUALLY ~ Intelligence: %19_old%~   ~ Intelligence: %19_new%~
-            				        REPLACE_TEXTUALLY ~ Intelligence: %20_old%~   ~ Intelligence: %20_old%~
-            				        REPLACE_TEXTUALLY ~ Intelligence: %21_old%~   ~ Intelligence: %21_old%~
-            				        REPLACE_TEXTUALLY ~ Intelligence: %22_old%~   ~ Intelligence: %22_old%~
-            				        REPLACE_TEXTUALLY ~ Intelligence: %23_old%~   ~ Intelligence: %23_old%~
-            				        REPLACE_TEXTUALLY ~ Intelligence: %24_old%~   ~ Intelligence: %24_old%~
-            				        REPLACE_TEXTUALLY ~ Intelligence: %25_old%~   ~ Intelligence: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %20_old%~   ~ Intelligence: %20_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %21_old%~   ~ Intelligence: %21_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %22_old%~   ~ Intelligence: %22_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %23_old%~   ~ Intelligence: %23_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %24_old%~   ~ Intelligence: %24_new%~
+            				        REPLACE_TEXTUALLY ~ Intelligence: %25_old%~   ~ Intelligence: %25_new%~
             				        REPLACE_TEXTUALLY ~ Wisdom: %17_old%~   ~ Wisdom: %17_new%~
             				        REPLACE_TEXTUALLY ~ Wisdom: %18_old%~   ~ Wisdom: %18_new%~
             				        REPLACE_TEXTUALLY ~ Wisdom: %19_old%~   ~ Wisdom: %19_new%~
-            				        REPLACE_TEXTUALLY ~ Wisdom: %20_old%~   ~ Wisdom: %20_old%~
-            				        REPLACE_TEXTUALLY ~ Wisdom: %21_old%~   ~ Wisdom: %21_old%~
-            				        REPLACE_TEXTUALLY ~ Wisdom: %22_old%~   ~ Wisdom: %22_old%~
-            				        REPLACE_TEXTUALLY ~ Wisdom: %23_old%~   ~ Wisdom: %23_old%~
-            				        REPLACE_TEXTUALLY ~ Wisdom: %24_old%~   ~ Wisdom: %24_old%~
-            				        REPLACE_TEXTUALLY ~ Wisdom: %25_old%~   ~ Wisdom: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %20_old%~   ~ Wisdom: %20_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %21_old%~   ~ Wisdom: %21_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %22_old%~   ~ Wisdom: %22_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %23_old%~   ~ Wisdom: %23_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %24_old%~   ~ Wisdom: %24_new%~
+            				        REPLACE_TEXTUALLY ~ Wisdom: %25_old%~   ~ Wisdom: %25_new%~
             				        REPLACE_TEXTUALLY ~ Charisma: %17_old%~   ~ Charisma: %17_new%~
             				        REPLACE_TEXTUALLY ~ Charisma: %18_old%~   ~ Charisma: %18_new%~
             				        REPLACE_TEXTUALLY ~ Charisma: %19_old%~   ~ Charisma: %19_new%~
-            				        REPLACE_TEXTUALLY ~ Charisma: %20_old%~   ~ Charisma: %20_old%~
-            				        REPLACE_TEXTUALLY ~ Charisma: %21_old%~   ~ Charisma: %21_old%~
-            				        REPLACE_TEXTUALLY ~ Charisma: %22_old%~   ~ Charisma: %22_old%~
-            				        REPLACE_TEXTUALLY ~ Charisma: %23_old%~   ~ Charisma: %23_old%~
-            				        REPLACE_TEXTUALLY ~ Charisma: %24_old%~   ~ Charisma: %24_old%~
-            				        REPLACE_TEXTUALLY ~ Charisma: %25_old%~   ~ Charisma: %25_old%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %20_old%~   ~ Charisma: %20_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %21_old%~   ~ Charisma: %21_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %22_old%~   ~ Charisma: %22_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %23_old%~   ~ Charisma: %23_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %24_old%~   ~ Charisma: %24_new%~
+            				        REPLACE_TEXTUALLY ~ Charisma: %25_old%~   ~ Charisma: %25_new%~
 									
 		        				  END
 		        					SAY_EVALUATED ~%offset%~ ~%new_desc%~
