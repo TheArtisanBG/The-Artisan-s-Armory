@@ -32,6 +32,7 @@ GROUP ~Item Tweaks~
 INCLUDE ~%MOD_FOLDER%/lib/attributes.tpa~
 
 BEGIN ~(EEex) The Artisan's Armory - Speed/Attack Per Round Weapon Rework~
+REQUIRE_PREDICATE (MOD_IS_INSTALLED ~EEEX/EEEX.TP2~ ~0~) ~This component requires EEEx.~ //EEX required!
 GROUP ~Item Tweaks~
 
 INCLUDE ~%MOD_FOLDER%/lib/speed_weapons.tpa~
