@@ -16,6 +16,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + (index * 0x38)) type
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
             LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 305 target = 1 power = 0 parameter1 = (0 - 2) parameter2 = 0 timing = 2 END // Off-Hand THAC0 Penalty
           PATCH_IF (type = 1) AND (dicesize = 4) AND (dicethrown = 2) BEGIN
             WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 10
@@ -32,6 +34,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
         READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
             LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 305 target = 1 power = 0 parameter1 = (0 - 2) parameter2 = 0 timing = 2 END // Off-Hand THAC0 Penalty
           PATCH_IF (type = 1) AND (dicesize = 8) AND (dicethrown = 1) BEGIN
             PATCH_IF (damagebonus = 0) BEGIN
@@ -52,6 +55,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
         READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
           PATCH_IF (type = 1) AND (dicesize = 6) AND (dicethrown = 1) BEGIN
             PATCH_IF (damagebonus = 0) BEGIN
             SET add_damagebonus = 1
@@ -80,6 +84,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
         READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
           PATCH_IF (type = 1) BEGIN
             LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 301 target = 1 power = 0 parameter1 = 1 parameter2 = 1 timing = 2 special = 1 END // Critical Hit Bonus
             SET critical_rate_bonus = 1
@@ -208,6 +213,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + (index * 0x38)) type
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
           PATCH_IF (type = 1) BEGIN
             PATCH_IF (dicesize = 8) AND (dicethrown = 1) BEGIN
             WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
@@ -226,6 +233,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + (index * 0x38)) type
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
           PATCH_IF (type = 1) BEGIN
             PATCH_IF (damagetype = 1) BEGIN
               WRITE_SHORT (abil_off + 0x1C + (index * 0x38)) 7
@@ -243,6 +252,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + (index * 0x38)) type
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
             LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 305 target = 1 power = 0 parameter1 = (0 - 2) parameter2 = 0 timing = 2 END // Off-Hand THAC0 Penalty
           PATCH_IF (type = 1) BEGIN
             PATCH_IF (dicesize = 8) AND (dicethrown = 1) BEGIN
@@ -284,6 +295,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + (index * 0x38)) type
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
           PATCH_IF (type = 1) BEGIN
             PATCH_IF (dicesize = 10) AND (dicethrown = 1) BEGIN
             WRITE_BYTE (abil_off + 0x16 + (index * 0x38)) 6
@@ -304,6 +317,8 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + (index * 0x38)) type
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
+        READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
           PATCH_IF (type = 1) BEGIN
             PATCH_IF (damagetype = 1) BEGIN
               WRITE_SHORT (abil_off + 0x1C + (index * 0x38)) 7
@@ -326,6 +341,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         READ_BYTE (abil_off + 0x16 + (index * 0x38)) dicesize
         READ_BYTE (abil_off + 0x18 + (index * 0x38)) dicethrown
         READ_BYTE (abil_off + 0x1A + (index * 0x38)) damagebonus
+        READ_SHORT (abil_off + 0x1C + (index * 0x38)) damagetype
             LPF ADD_ITEM_EQEFFECT INT_VAR opcode = 305 target = 1 power = 0 parameter1 = (0 - 2) parameter2 = 0 timing = 2 END // Off-Hand THAC0 Penalty
           PATCH_IF (type = 1) BEGIN
             PATCH_IF (damagebonus = 0) BEGIN

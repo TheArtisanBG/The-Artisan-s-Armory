@@ -11,6 +11,11 @@ LANGUAGE ~English~
          ~english~
          ~%MOD_FOLDER%/tra/english/setup.tra~
 
+BEGIN ~The Artisan's Armory - New Items~
+GROUP ~Item Tweaks~
+
+INCLUDE ~%MOD_FOLDER%/lib/items.tpa~
+
 BEGIN ~The Artisan's Armory - Rebalanced Weapon Types~
 GROUP ~Item Tweaks~
 
