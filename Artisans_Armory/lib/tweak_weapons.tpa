@@ -206,7 +206,7 @@ COPY_EXISTING_REGEXP GLOB ~^.+\.itm$~ ~override~ // looking for gems and jewelry
         END
     END
     
-      PATCH_IF (type = 20) AND (proficiency = 95) AND (appearance = 12627) BEGIN // NINJATO
+      PATCH_IF (type = 20) AND (proficiency = 95) AND ((appearance = 12627) OR (appearance = 12659)) BEGIN // NINJATO
       READ_LONG  0x64 abil_off
       READ_SHORT 0x68 abil_num
         FOR (index = 0 ; index < abil_num ; ++index) BEGIN

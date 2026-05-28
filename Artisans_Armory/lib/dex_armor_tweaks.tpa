@@ -495,10 +495,13 @@ C0_VS_SLASHING~
             				    PATCH_IF ("%desc%" STRING_COMPARE_REGEXP ~<Invalid Strref -?[0-9]+>~) BEGIN // checking for valid content in string
             				      INNER_PATCH_SAVE new_desc ~%desc%~ BEGIN
                             		REPLACE_TEXTUALLY ~%original_shield_AC%~ ~%new_shield_AC%~
+		        				  END
+
+									PATCH_IF (shield_type = 4) BEGIN
                             		REPLACE_TEXTUALLY ~%statistics%~ ~%statistics%
 
 %large_shield_dex%~
-		        				  END
+END
 		        					SAY_EVALUATED ~%offset%~ ~%new_desc%~
 		        				  END
 								  
