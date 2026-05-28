@@ -148,9 +148,9 @@ COPY_EXISTING ~#0I_DR2A.SPL~ OVERRIDE
 LPF ALTER_EFFECT INT_VAR match_opcode = 326 parameter1 = 0 parameter2 = C0_POLYMORPH_CHECK STR_VAR match_resource = ~#0I_DR2C~ END
 
 COPY_EXISTING_REGEXP GLOB ~.*\.itm~ ~override~ //copies all item files
-LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 144 match_timing = 2 match_parameter2 = 7 opcode = 318 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~#0I_DR2C~ END
-LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 53 match_timing = 2 opcode = 318 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~#0I_DR2C~ END
-LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 135 match_timing = 2 opcode = 318 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~#0I_DR2C~ END
+LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 144 match_timing = 2 match_parameter2 = 7 opcode = 318 parameter1 = 0 parameter2 = 0 probability1 = 100 dicenumber = 0 STR_VAR resource = ~#0I_DR2C~ END
+LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 53 match_timing = 2 opcode = 318 parameter1 = 0 parameter2 = 0 probability1 = 100 dicenumber = 0 STR_VAR resource = ~#0I_DR2C~ END
+LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 135 match_timing = 2 opcode = 318 parameter1 = 0 parameter2 = 0 probability1 = 100 dicenumber = 0 STR_VAR resource = ~#0I_DR2C~ END
 BUT_ONLY
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
