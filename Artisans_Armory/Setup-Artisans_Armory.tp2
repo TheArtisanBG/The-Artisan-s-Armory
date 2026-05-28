@@ -13,7 +13,7 @@ LANGUAGE ~English~
 
 BEGIN ~The Artisan's Armory - New Items~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~Forgotten-Armament/forgotten-armament.tp2~ ~Will not be compatible with Forgotten Armaments.~
-GROUP ~Item Tweaks~
+GROUP ~New Items~
 
 INCLUDE ~%MOD_FOLDER%/lib/items.tpa~
 
