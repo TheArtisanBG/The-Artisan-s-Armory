@@ -1,3 +1,5 @@
+INCLUDE ~%MOD_FOLDER%/eeex/on_load_eeex.tpa~
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //KEY RING
@@ -23,6 +25,133 @@ SAY 0xc ~Key Ring~
 
 COPY_EXISTING ~ARLED.sto~ ~override~
 ADD_STORE_ITEM ~bdkeyr~ #0 #0 #0 ~IDENTIFIED~ #1
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//DRUID
+
+APPEND ~splprot.2da~ ~C0_OUTDOORS_CHECK%TAB%0x106%TAB%1%TAB%8~ UNLESS ~C0_OUTDOORS_CHECK ~
+COPY_EXISTING ~splprot.2da~ ~override~
+	COUNT_2DA_COLS cols // amount of columns
+	READ_2DA_ENTRIES_NOW rows cols // read all file into memory  
+	FOR (row = 1; row < rows; ++row) BEGIN // iterate over rows
+	  READ_2DA_ENTRY_FORMER rows row 0 ~stat~ // read column value
+	  PATCH_IF ~%stat%~ STRING_EQUAL_CASE ~C0_OUTDOORS_CHECK~ BEGIN
+	    SET C0_OUTDOORS_CHECK = %row%
+	  END
+	END
+	
+APPEND ~splprot.2da~ ~C0_NOT_OUTDOORS_CHECK%TAB%0x106%TAB%1%TAB%9~ UNLESS ~C0_NOT_OUTDOORS_CHECK ~
+COPY_EXISTING ~splprot.2da~ ~override~
+	COUNT_2DA_COLS cols // amount of columns
+	READ_2DA_ENTRIES_NOW rows cols // read all file into memory  
+	FOR (row = 1; row < rows; ++row) BEGIN // iterate over rows
+	  READ_2DA_ENTRY_FORMER rows row 0 ~stat~ // read column value
+	  PATCH_IF ~%stat%~ STRING_EQUAL_CASE ~C0_NOT_OUTDOORS_CHECK~ BEGIN
+	    SET C0_NOT_OUTDOORS_CHECK = %row%
+	  END
+	END
+	
+APPEND ~splprot.2da~ ~C0_POLYMORPH_CHECK%TAB%59%TAB%-1%TAB%1~ UNLESS ~C0_POLYMORPH_CHECK ~
+COPY_EXISTING ~splprot.2da~ ~override~
+	COUNT_2DA_COLS cols // amount of columns
+	READ_2DA_ENTRIES_NOW rows cols // read all file into memory  
+	FOR (row = 1; row < rows; ++row) BEGIN // iterate over rows
+	  READ_2DA_ENTRY_FORMER rows row 0 ~stat~ // read column value
+	  PATCH_IF ~%stat%~ STRING_EQUAL_CASE ~C0_POLYMORPH_CHECK~ BEGIN
+	    SET C0_POLYMORPH_CHECK = %row%
+	  END
+	END
+	
+COPY ~%MOD_FOLDER%/items/druid~ ~OVERRIDE~
+
+COPY_EXISTING ~#0I_DR1.ITM~ OVERRIDE
+SAY NAME2 ~Staff of Primordial Order +3~
+SAY DESC ~Legends say that this ancient staff was composed from each of the primordial elements themselves, and is given a form of life by the natural energies of the land... or, given its immense power, perhaps the reverse may be true. Whatever the case may be, this staff has become a symbol of office for Great Druids since as far as anyone remembers, and such a formidable item in the hands of an equally powerful druid is a terrifying prospect indeed. The staff commands the power of the elements such that even the weather itself may change at the wielder's command to empower their primal magic. None may doubt the worthiness of a Great Druid who possesses this weapon.
+
+STATISTICS:
+
+Equipped abilities:
+– Armor Class: +2
+– Saving Throws: +2
+
+Charge abilities:
+– Greater Chain Lightning, Fire Storm or Elemental Summoning three times per day
+  Greater Chain Lightning: Deal 1d6 electrical damage per level to all enemies (Save vs. Spell at -2 for half).
+  Fire Storm: Deal 2d8 (+1 per level) fire damage to all creatures for 4 rounds.
+  Elemental Summoning: Randomly summons 2 16-HD elementals. There is a 10% chance that an Elemental Prince will be summoned instead.
+  
+– Greater Restoration once per day
+
+– Control Weather at will
+  Special: Change the weather to Clear Skies, Rain or Snow for the next 2 hours and grants effects to all creatures in the area. The effects only persist while outdoors.
+    Clear Skies: No additional effects
+    Rain: All creatures deal +30% electrical damage, but deal 30% reduced fire damage
+    Snow: All creatures deal +30% cold damage, but suffer -30% fire resistance
+
+THAC0: +3, strikes as a +5 weapon
+Damage: 1d6+3 (Crushing)
+Speed Factor: 1
+Proficiency Type: Quarterstaff
+Type: Two-handed
+Requires:
+ 5 Strength
+
+Weight: 3~
+
+COPY_EXISTING ~#0I_DR1A.SPL~ OVERRIDE
+SAY NAME1 ~Greater Chain Lightning~
+
+COPY_EXISTING ~#0I_DR1C.SPL~ OVERRIDE
+SAY NAME1 ~Clear Skies~
+
+COPY_EXISTING ~#0I_DR1D.SPL~ OVERRIDE
+SAY NAME1 ~Rainfall~
+
+COPY_EXISTING ~#0I_DR1E.SPL~ OVERRIDE
+SAY NAME1 ~Snowfall~
+
+COPY_EXISTING ~#0I_DR1F.SPL~ OVERRIDE
+LPF ALTER_EFFECT INT_VAR match_opcode = 326 parameter2 = C0_OUTDOORS_CHECK STR_VAR match_resource = ~#0I_DR1H~ END
+
+COPY_EXISTING ~#0I_DR1G.SPL~ OVERRIDE
+LPF ALTER_EFFECT INT_VAR match_opcode = 326 parameter2 = C0_OUTDOORS_CHECK STR_VAR match_resource = ~#0I_DR1I~ END
+
+COPY_EXISTING ~#0I_DR2.ITM~ OVERRIDE
+SAY NAME2 ~Ring of Infinite Shapes~
+SAY DESC ~The great druid Celanne once took a pilgrimage throughout the realms to learn of the beasts and beings beyond his own grove. In one such journey to distant Shou, he encountered a mischievous, shapeshifting immortal who offered to teach him the transformation techniques of the Great Sage... if he entertained it by playing a game of chase within its forest for three days. After the three days passed, the immortal gifted Celanne with this jade ring, allowing him to study the nature of beings by taking their forms. Enlightened, the great druid returned home and meditated on his new understanding for many years. Eventually, his own ability of transformation was advanced to the point that he no longer needed the ring, and left it to his successor as he departed, to spend the rest of his life living in the forms of the countless creatures he had come to understand.
+
+STATISTICS:
+
+Charge abilities:
+– Polymorph Self five times per day
+– Shapechange once per day
+
+Equipped abilities:
+– Save vs. Polymorph: +10
+– While shapeshifted or polymorphed, the wearer gains a +4 bonus to THAC0, +25% increased damage, and +10% increased resistances.
+
+Weight: 0~
+
+ACTION_IF FILE_EXISTS_IN_GAME ~CECHALLE.DLG~ BEGIN
+COPY_EXISTING ~CECHALLE.dlg~ ~override~ //Parse through all dlg files
+                DECOMPILE_AND_PATCH BEGIN
+                    REPLACE_TEXTUALLY ~^GiveItemCreate("staf19"~ ~GiveItemCreate("#0I_DR1"~ //Replace trigger respecting OR and !
+                    REPLACE_TEXTUALLY ~^GiveItemCreate("ring07"~ ~GiveItemCreate("#0I_DR2"~ //Replace trigger respecting OR and !
+                END
+                DECOMPILE_AND_PATCH BEGIN
+                    //Recommended by refactor trigger to fix whitespace
+                END
+            END
+
+COPY_EXISTING ~#0I_DR2A.SPL~ OVERRIDE
+LPF ALTER_EFFECT INT_VAR match_opcode = 326 parameter1 = 0 parameter2 = C0_POLYMORPH_CHECK STR_VAR match_resource = ~#0I_DR2C~ END
+
+COPY_EXISTING_REGEXP GLOB ~.*\.itm~ ~override~ //copies all item files
+LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 144 match_timing = 2 match_parameter2 = 7 opcode = 318 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~#0I_DR2C~ END
+LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 53 match_timing = 2 opcode = 318 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~#0I_DR2C~ END
+LPF CLONE_EFFECT INT_VAR silent = 1 match_opcode = 135 match_timing = 2 opcode = 318 parameter1 = 0 parameter2 = 0 STR_VAR resource = ~#0I_DR2C~ END
+BUT_ONLY
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
